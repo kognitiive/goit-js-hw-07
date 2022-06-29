@@ -1,4 +1,6 @@
 import { galleryItems } from './gallery-items.js';
+// import * as basicLightbox from 'basiclightbox';
+
 // Change code below this line
 /*
 <div class="gallery__item">
@@ -23,7 +25,7 @@ const galleryMarkup = galleryItems.map(({preview, original, description})=> {
     <img
       class="gallery__image"
       src="${preview}"
-      data-source="${original}}"
+      data-source="${original}"
       alt="${description}"
     />
   </a>
@@ -37,6 +39,22 @@ let imgOriginalLink = ''
 galleryRef.addEventListener('click', e => { 
     e.preventDefault();
     
-    imgOriginalLink = e.target.dataset.source;
+  imgOriginalLink = e.target.dataset.source;
+  
+  const instance = basicLightbox.create(`
+    <img src="${imgOriginalLink}">`)
+
+  instance.show(() => window.addEventListener('keydown', openInstance))
+
+  function openInstance(e) {
+    if (e.code === 'Escape') {
+    closeInstanse()
+  }
+}
+
+function closeInstanse() {
+  window.removeEventListener('keydown', openInstance)
+  instance.close()
+}
     }
 )
