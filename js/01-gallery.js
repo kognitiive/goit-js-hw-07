@@ -29,7 +29,7 @@ const galleryMarkup = galleryItems.map(({preview, original, description})=> {
       alt="${description}"
     />
   </a>
-</div>`;
+</div>`
 }).join('')
 
 galleryRef.innerHTML = galleryMarkup;
@@ -42,19 +42,16 @@ galleryRef.addEventListener('click', e => {
   imgOriginalLink = e.target.dataset.source;
   
   const instance = basicLightbox.create(`
-    <img src="${imgOriginalLink}">`)
-
-  instance.show(() => window.addEventListener('keydown', openInstance))
+      <img src="${imgOriginalLink}">`, {
+      onShow:(instance) => {window.addEventListener('keydown', openInstance)},
+      onClose:(instance) => {window.removeEventListener('keydown', openInstance)}
+  })
+  instance.show()
 
   function openInstance(e) {
     if (e.code === 'Escape') {
-    closeInstanse()
-  }
-}
-
-function closeInstanse() {
-  window.removeEventListener('keydown', openInstance)
-  instance.close()
-}
+    instance.close()
+      }
     }
+  }
 )
